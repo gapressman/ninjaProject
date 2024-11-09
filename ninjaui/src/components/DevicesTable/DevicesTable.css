@@ -1,0 +1,27 @@
+.container {
+  padding: 0 24px;
+}
+.container .table-item {
+  border-bottom: 1px solid #E7E8EB;
+  padding: 8px 12px;
+  display: block;
+}
+.container .table-header {
+  border-color: #CBCFD3;
+}
+.container .device-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.container .device-row .device-details {
+  font-size: 12px;
+  color: #6E6D7A;
+}
+.container .device {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-weight: 400;
+}
+/*# sourceMappingURL=DevicesTable.css.map */

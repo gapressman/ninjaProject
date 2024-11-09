@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './NinjaOneLogo.png';
 import plus from './plus.png';
 import './App.css';
-import { DevicesTable } from './components/DevicesTable';
+import { DevicesTable } from './components/DevicesTable/DevicesTable';
 import {
   QueryClient,
   QueryClientProvider,

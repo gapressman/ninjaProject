@@ -1,0 +1,29 @@
+.filter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.filter-row .refresh-button {
+  border: none;
+  background: none;
+}
+.filter-row .filter-inputs {
+  display: flex;
+  gap: 8px;
+}
+.filter-row .form-item {
+  height: 38px;
+  border-radius: 4px;
+  border: 1px solid #D1D0D9;
+  padding: 0 12px;
+}
+.filter-row .search-input {
+  width: 270px;
+  background: url('../../icons/search.png') no-repeat scroll 7px 50%;
+  padding-left: 30px;
+}
+.filter-row .device-select {
+  width: 155px;
+}
+/*# sourceMappingURL=Filters.css.map */
