@@ -1,4 +1,4 @@
-import React, { FC, Suspense, useState } from 'react';
+import React, { FC, Suspense, useRef, useState } from 'react';
 import { Device, useGetDevices } from '../../core/queries/useGetDevices';
 import './DevicesTable.css';
 import { ErrorBoundary } from "react-error-boundary";
@@ -11,6 +11,7 @@ import { IconButton } from '../IconButton/IconButton';
 import elipsesIcon from '../../icons/elipsesIcon.png';
 import { ModalMeta } from '../../App';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
+import { useGetDeviceById } from '../../core/queries/useGetDeviceById';
 
 interface Props {
     setDeviceMeta(meta: ModalMeta): void;
@@ -22,22 +23,52 @@ export const DevicesTable: FC<Props> = ({ setDeviceMeta }) => {
     const [sort, setSort] = useState<Sort>('system_name descending');
     const [activeMenuItem, setActiveMenuItem] = useState(-1);
     const [deviceToDelete, setDeviceToDelete] = useState<Device | undefined>();
+    const [openRowId, setOpenRowId] = useState<string | undefined>();
+
+    const ref = useRef<HTMLDivElement>(null);
 
     const { data: devices } = useGetDevices();
+    const { data: selectedDevice } = useGetDeviceById(openRowId);
 
-    const handleEditClick = (device: Device) => {
+    const handleEditClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, device: Device) => {
+        e.stopPropagation();
+
         setDeviceMeta({ modalType: 'edit', deviceToEdit: device });
         setActiveMenuItem(-1);
     };
 
-    const handleDeleteClick = (device: Device) => {
+    const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, device: Device) => {
+        e.stopPropagation();
+
         setDeviceToDelete(device);
         setActiveMenuItem(-1);
     };
 
-    const handleOpenContextMenu = (itemToSet: number) => {
-        const newActiveItem = activeMenuItem === -1 ? itemToSet : -1;
-        setActiveMenuItem(newActiveItem);
+    const handleOutsideClick = ({ target }: MouseEvent) => {
+        if (ref.current && !ref.current.contains(target as HTMLElement)) {
+            setActiveMenuItem(-1);
+        }
+
+        document.removeEventListener('click', handleOutsideClick);
+    };
+
+    const handleOpenContextMenu = (itemToSet: number, e: MouseEvent) => {
+        if (activeMenuItem === -1) {
+            e.stopPropagation();
+        }
+
+        setActiveMenuItem(itemToSet);
+        document.addEventListener('click', handleOutsideClick);
+    };
+
+    const handleOpenRow = (id: string) => {
+        if (openRowId === id) {
+            setOpenRowId(undefined);
+
+            return;
+        }
+
+        setOpenRowId(id);
     };
 
     const filteredDevices = devices
@@ -51,7 +82,6 @@ export const DevicesTable: FC<Props> = ({ setDeviceMeta }) => {
         <ErrorBoundary fallback={<div>Something went wrong</div>}>
             <Suspense fallback={<div>loading...</div>}>
                 {!!deviceToDelete && <DeleteModal onClose={() => setDeviceToDelete(undefined)} device={deviceToDelete} />}
-
                 <div className='container' >
                     <Filters
                         searchValue={searchValue}
@@ -69,23 +99,39 @@ export const DevicesTable: FC<Props> = ({ setDeviceMeta }) => {
                         const isActive = activeMenuItem === i;
 
                         return (
-                            <div className='table-item table-row' key={id}>
-                                <div className='device-data'>
-                                    <div className='device'>
-                                        <DeviceIcon deviceType={type} />
-                                        <span>{system_name}-{id}</span>
-                                    </div>
+                            <div className='table-item' key={id} onClick={() => handleOpenRow(id)}>
+                                <div className='table-row'>
+                                    <div className='device-data'>
+                                        <div className='device'>
+                                            <DeviceIcon deviceType={type} />
+                                            <span>{system_name}-{id}</span>
+                                        </div>
 
-                                    <div className='device-details'>
-                                        <span>{type} - {hdd_capacity} GB</span>
+                                        <div className='device-details'>
+                                            <span>{type} - {hdd_capacity} GB</span>
+                                        </div>
                                     </div>
+                                    <IconButton className={`show-more-button ${isActive && 'active'}`} icon={elipsesIcon} onClick={e => handleOpenContextMenu(i, e)} alt='Show more icon' />
+
+                                    {isActive && (
+                                        <div className='context-menu' ref={ref} >
+                                            <button className='button' onClick={(e) => handleEditClick(e, device)}>Edit</button>
+                                            <button className='button delete' onClick={(e) => handleDeleteClick(e, device)}>Delete</button>
+                                        </div>
+                                    )}
                                 </div>
-                                <IconButton className={`show-more-button ${isActive && 'active'}`} icon={elipsesIcon} onClick={() => handleOpenContextMenu(i)} alt='Show more icon' />
 
-                                {isActive && (
-                                    <div className='context-menu'>
-                                        <button className='button' onClick={() => handleEditClick(device)}>Edit</button>
-                                        <button className='button delete' onClick={() => handleDeleteClick(device)}>Delete</button>
+                                {openRowId === id && (
+                                    <div>
+                                        {!selectedDevice ?
+                                            <div>loading... </div> :
+                                            <ul>
+                                                <li>Name: {system_name}</li>
+                                                <li>type: {type}</li>
+                                                <li>id: {id}</li>
+                                                <li>storage: {hdd_capacity}</li>
+                                            </ul>
+                                        }
                                     </div>
                                 )}
                             </div>

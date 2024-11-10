@@ -13,17 +13,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 .container .table-row .show-more-button {
   height: 32px;
   width: 32px;
+  background-color: #E8E8EA;
   display: none;
 }
 .container .table-row .show-more-button.active {
   display: inline;
 }
+.container .table-row:hover {
+  background-color: #F4F4F5;
+}
 .container .table-row:hover .show-more-button {
-  background-color: #E8E8EA;
   display: inline;
 }
 .container .table-row .device-data {

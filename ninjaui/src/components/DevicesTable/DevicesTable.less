@@ -15,10 +15,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        cursor: pointer;
 
         .show-more-button {
             height: 32px;
             width: 32px;
+            background-color: #E8E8EA;
             display: none;
 
             &.active {
@@ -27,8 +29,9 @@
         }
 
         &:hover {
-            .show-more-button {
-                background-color: #E8E8EA;
+            background-color: #F4F4F5;
+
+            .show-more-button {  
                 display: inline;
             }
         }

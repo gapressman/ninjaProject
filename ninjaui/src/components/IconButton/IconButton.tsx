@@ -3,7 +3,7 @@ import './IconButton.css';
 
 interface Props {
     icon: string;
-    onClick(): void;
+    onClick(...args: any[]): void;
     alt: string;
     className?: string;
 }
