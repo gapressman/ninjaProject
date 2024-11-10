@@ -4,7 +4,7 @@ import {
 import axios from 'axios';
 import { QUERY_KEYS } from './queryKeys';
 
-export type DeviceType = "WINDOWS" | "MAC" | "LINUX"
+export type DeviceType = "WINDOWS" | "MAC" | "LINUX";
 export interface Device {
     hdd_capacity: string;
     id: string;
@@ -16,7 +16,7 @@ export const useGetDevices = (): UseSuspenseQueryResult<Device[]> => {
     return useSuspenseQuery<Device[]>({
         queryKey: [QUERY_KEYS.devices],
         queryFn: async () => {
-            const { data } = await axios({ url: 'http://localhost:3000/devices', method: 'get' });
+            const { data } = await axios.get('http://localhost:3000/devices');
 
             return data;
         },

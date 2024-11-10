@@ -39,7 +39,7 @@ export const Filters: FC<Props> = ({ searchValue, setSearchValue, deviceType, se
                     placeholder='Search'
                 />
 
-                <select className='form-item' value={deviceType} onChange={e => setDeviceType(e.target.value as DeviceTypeOptions)}>
+                <select className='form-item' value={deviceType} data-testid="device-select" onChange={e => setDeviceType(e.target.value as DeviceTypeOptions)}>
                     {DEVICE_TYPE_OPTIONS.map(device =>
                         <option
                             value={device.toUpperCase()}

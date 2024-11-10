@@ -23,23 +23,20 @@ const App = () => {
 
   return (
     <ErrorBoundary fallback={<div>Beautiful error message</div>}>
-      <Suspense fallback={<div>loading...</div>}>
+      <QueryClientProvider client={queryClient}>
+        {!!modalMeta && <DeviceModal actionType={modalMeta?.modalType} device={modalMeta?.deviceToEdit} onClose={() => setModalType(undefined)} />}
 
-        <QueryClientProvider client={queryClient}>
-          {!!modalMeta && <DeviceModal actionType={modalMeta?.modalType} device={modalMeta?.deviceToEdit} onClose={() => setModalType(undefined)} />}
+        <header className="app-header">
+          <img src={logo} className="app-logo" alt="logo" />
+        </header>
 
-          <header className="app-header">
-            <img src={logo} className="app-logo" alt="logo" />
-          </header>
+        <div className='add-device-row'>
+          <p className='add-device-text'>Devices</p>
+          <button onClick={() => setModalType({ modalType: 'add' })} className='add-device-button'><img src={plus} alt='plus' />Add device</button>
+        </div>
 
-          <div className='add-device-row'>
-            <p className='add-device-text'>Devices</p>
-            <button onClick={() => setModalType({ modalType: 'add' })} className='add-device-button'><img src={plus} alt='plus' />Add device</button>
-          </div>
-
-          <DevicesTable setDeviceMeta={setModalType} />
-        </QueryClientProvider >
-      </Suspense>
+        <DevicesTable setDeviceMeta={setModalType} />
+      </QueryClientProvider >
     </ErrorBoundary>
 
 

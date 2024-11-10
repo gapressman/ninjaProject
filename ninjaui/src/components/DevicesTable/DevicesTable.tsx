@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, Suspense, useRef, useState } from 'react';
 import { Device, useGetDevices } from '../../core/queries/useGetDevices';
 import './DevicesTable.css';
 import { DeviceIcon } from '../DeviceIcon';
@@ -78,63 +78,65 @@ export const DevicesTable: FC<Props> = ({ setDeviceMeta }) => {
     const sortedDevices = sortDevices(filteredDevices, sort);
 
     return (
-        <div className='container' >
-            <Filters
-                searchValue={searchValue}
-                setSearchValue={setSearchValue}
-                deviceType={deviceType}
-                setDeviceType={setDeviceType}
-                sort={sort}
-                setSort={setSort}
-            />
+        <Suspense fallback={<div>loading...</div>}>
+            <div className='container' >
+                <Filters
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                    deviceType={deviceType}
+                    setDeviceType={setDeviceType}
+                    sort={sort}
+                    setSort={setSort}
+                />
 
-            {!!deviceToDelete && <DeleteModal onClose={() => setDeviceToDelete(undefined)} device={deviceToDelete} />}
-            <span className='table-item table-header'>Device</span>
+                {!!deviceToDelete && <DeleteModal onClose={() => setDeviceToDelete(undefined)} device={deviceToDelete} />}
+                <span className='table-item table-header'>Device</span>
 
-            {sortedDevices.map((device, i) => {
-                const { id, hdd_capacity, system_name, type } = device;
-                const isActive = activeMenuItem === i;
+                {sortedDevices.map((device, i) => {
+                    const { id, hdd_capacity, system_name, type } = device;
+                    const isActive = activeMenuItem === i;
 
-                return (
-                    <div className='table-item' key={id} onClick={() => handleOpenRow(id)}>
-                        <div className='table-row'>
-                            <div className='device-data'>
-                                <div className='device'>
-                                    <DeviceIcon deviceType={type} />
-                                    <span>{system_name}-{id}</span>
+                    return (
+                        <div className='table-item' key={id} onClick={() => handleOpenRow(id)}>
+                            <div className='table-row'>
+                                <div className='device-data'>
+                                    <div className='device'>
+                                        <DeviceIcon deviceType={type} />
+                                        <span>{system_name}-{id}</span>
+                                    </div>
+
+                                    <div className='device-details'>
+                                        <span>{type} - {hdd_capacity} GB</span>
+                                    </div>
                                 </div>
+                                <IconButton className={`show-more-button ${isActive && 'active'}`} icon={elipsesIcon} onClick={e => handleOpenContextMenu(i, e)} alt='Show more icon' />
 
-                                <div className='device-details'>
-                                    <span>{type} - {hdd_capacity} GB</span>
-                                </div>
+                                {isActive && (
+                                    <div className='context-menu' ref={ref} >
+                                        <button className='button' onClick={(e) => handleEditClick(e, device)}>Edit</button>
+                                        <button className='button delete' onClick={(e) => handleDeleteClick(e, device)}>Delete</button>
+                                    </div>
+                                )}
                             </div>
-                            <IconButton className={`show-more-button ${isActive && 'active'}`} icon={elipsesIcon} onClick={e => handleOpenContextMenu(i, e)} alt='Show more icon' />
 
-                            {isActive && (
-                                <div className='context-menu' ref={ref} >
-                                    <button className='button' onClick={(e) => handleEditClick(e, device)}>Edit</button>
-                                    <button className='button delete' onClick={(e) => handleDeleteClick(e, device)}>Delete</button>
+                            {openRowId === id && (
+                                <div>
+                                    {!selectedDevice ?
+                                        <div>loading... </div> :
+                                        <ul>
+                                            <li>Name: {system_name}</li>
+                                            <li>type: {type}</li>
+                                            <li>id: {id}</li>
+                                            <li>storage: {hdd_capacity}</li>
+                                        </ul>
+                                    }
                                 </div>
                             )}
                         </div>
-
-                        {openRowId === id && (
-                            <div>
-                                {!selectedDevice ?
-                                    <div>loading... </div> :
-                                    <ul>
-                                        <li>Name: {system_name}</li>
-                                        <li>type: {type}</li>
-                                        <li>id: {id}</li>
-                                        <li>storage: {hdd_capacity}</li>
-                                    </ul>
-                                }
-                            </div>
-                        )}
-                    </div>
-                );
-            })}
-        </div>
+                    );
+                })}
+            </div>
+        </Suspense>
     );
 };
 
