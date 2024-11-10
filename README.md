@@ -7,16 +7,16 @@ I also utilized the get device by id endpoint even though it wasn't in requireme
 # Startup instructions
 # Start the api server
 
-Open the app in your terminal
-$ cd devicesTask_serverApp 
-$ npm i
+Open the app in your terminal \
+$ cd devicesTask_serverApp \
+$ npm i \
 $ npm run start
 
 # Start the dev server
 
-Open a second terminal and navigate to the app
-$ cd ninjaui
-$ npm i
+Open a second terminal and navigate to the app \
+$ cd ninjaui \
+$ npm i \
 $ npm run start
 
 Open browser and navigate to http://localhost:3006/
