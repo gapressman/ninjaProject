@@ -24,13 +24,13 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       {!!modalMeta && <DeviceModal actionType={modalMeta?.modalType} device={modalMeta?.deviceToEdit} onClose={() => setModalType(undefined)} />}
 
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <header className="app-header">
+        <img src={logo} className="app-logo" alt="logo" />
       </header>
 
-      <div className='Add-Device-Row'>
-        <p className='Add-Device-Text'>Devices</p>
-        <button onClick={() => setModalType({ modalType: 'add' })} className='Add-Device-Button'><img src={plus} alt='plus' />Add device</button>
+      <div className='add-device-row'>
+        <p className='add-device-text'>Devices</p>
+        <button onClick={() => setModalType({ modalType: 'add' })} className='add-device-button'><img src={plus} alt='plus' />Add device</button>
       </div>
 
       <DevicesTable setDeviceMeta={setModalType} />
