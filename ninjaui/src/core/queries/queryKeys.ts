@@ -1,3 +1,4 @@
 export const QUERY_KEYS = {
-    devices: 'devices'
-}
+    devices: 'devices',
+    device: 'device'
+};

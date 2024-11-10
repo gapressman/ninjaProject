@@ -16,7 +16,7 @@ export interface Device {
 export const useGetDeviceById = (id?: string): UseQueryResult<Device> => {
     return useQuery({
         enabled: !!id,
-        queryKey: [QUERY_KEYS.devices, id],
+        queryKey: [QUERY_KEYS.device, id],
         queryFn: async () => {
             const { data } = await axios({ url: `http://localhost:3000/devices/${id}`, method: 'get' });
 
