@@ -12,7 +12,6 @@ import elipsesIcon from '../../icons/elipsesIcon.png';
 import { ModalMeta } from '../../App';
 import { DeleteModal } from '../DeleteModal/DeleteModal';
 
-
 interface Props {
     setDeviceMeta(meta: ModalMeta): void;
 }
@@ -36,6 +35,11 @@ export const DevicesTable: FC<Props> = ({ setDeviceMeta }) => {
         setActiveMenuItem(-1);
     };
 
+    const handleOpenContextMenu = (itemToSet: number) => {
+        const newActiveItem = activeMenuItem === -1 ? itemToSet : -1;
+        setActiveMenuItem(newActiveItem);
+    };
+
     const filteredDevices = devices
         .filter((device) => {
             return filterDeviceByText(device, searchValue) && filterDeviceByType(device, deviceType);
@@ -47,8 +51,8 @@ export const DevicesTable: FC<Props> = ({ setDeviceMeta }) => {
         <ErrorBoundary fallback={<div>Something went wrong</div>}>
             <Suspense fallback={<div>loading...</div>}>
                 {!!deviceToDelete && <DeleteModal onClose={() => setDeviceToDelete(undefined)} device={deviceToDelete} />}
-                
-                <div className='container'>
+
+                <div className='container' >
                     <Filters
                         searchValue={searchValue}
                         setSearchValue={setSearchValue}
@@ -76,7 +80,7 @@ export const DevicesTable: FC<Props> = ({ setDeviceMeta }) => {
                                         <span>{type} - {hdd_capacity} GB</span>
                                     </div>
                                 </div>
-                                <IconButton className={`show-more-button ${isActive && 'active'}`} icon={elipsesIcon} onClick={() => setActiveMenuItem(i)} alt='Show more icon' />
+                                <IconButton className={`show-more-button ${isActive && 'active'}`} icon={elipsesIcon} onClick={() => handleOpenContextMenu(i)} alt='Show more icon' />
 
                                 {isActive && (
                                     <div className='context-menu'>
