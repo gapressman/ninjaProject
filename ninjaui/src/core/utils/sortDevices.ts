@@ -18,9 +18,9 @@ export const sortDevices = (devices: Device[], sort: Sort) => {
         const a = _a[sortType];
         const b = _b[sortType];
 
-        // Have to convert to numbers to get accurate sort here
-        const aSort = sortType === 'hdd_capacity' ? Number(a) : a;
-        const bSort = sortType === 'hdd_capacity' ? Number(b) : b;
+        // Have to convert to numbers for capacity and ensure matching case for name
+        const aSort = sortType === 'hdd_capacity' ? Number(a) : a.toLowerCase();
+        const bSort = sortType === 'hdd_capacity' ? Number(b) : b.toLowerCase();
 
         if (aSort === bSort) {
             return 0;

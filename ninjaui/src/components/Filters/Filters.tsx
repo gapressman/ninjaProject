@@ -1,8 +1,11 @@
 import React, { FC } from 'react';
-import refresh from '../../icons/refresh.png';
 import { DeviceTypeOptions } from '../../core/utils/filterDeviceByType';
 import { Sort } from '../../core/utils/sortDevices';
 import './Filters.css';
+import { IconButton } from '../IconButton/IconButton';
+import refresh from '../../icons/refresh.png';
+import { useQueryClient } from '@tanstack/react-query';
+import { QUERY_KEYS } from '../../core/queries/queryKeys';
 
 export const DEVICE_TYPE_OPTIONS = ['All', 'Windows', 'Mac', 'Linux'];
 export const SORT_OPTIONS: { label: string, value: Sort; }[] = [
@@ -22,6 +25,9 @@ interface Props {
 }
 
 export const Filters: FC<Props> = ({ searchValue, setSearchValue, deviceType, setDeviceType, sort, setSort }) => {
+    const queryClient = useQueryClient();
+    const handleClick = () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.devices] })
+
     return (
         <div className='filter-row'>
             <div className='filter-inputs'>
@@ -54,7 +60,11 @@ export const Filters: FC<Props> = ({ searchValue, setSearchValue, deviceType, se
                 </select>
             </div>
 
-            <button className='refresh-button'><img src={refresh} alt='refresh' /></button>
+            <IconButton
+                icon={refresh}
+                onClick={handleClick}
+                alt='refresh button'
+            />
         </div>
     );
 };

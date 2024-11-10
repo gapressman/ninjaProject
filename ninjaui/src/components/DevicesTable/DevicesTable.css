@@ -9,19 +9,59 @@
 .container .table-header {
   border-color: #CBCFD3;
 }
-.container .device-row {
+.container .table-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container .table-row .show-more-button {
+  height: 32px;
+  width: 32px;
+  display: none;
+}
+.container .table-row .show-more-button.active {
+  display: inline;
+}
+.container .table-row:hover .show-more-button {
+  background-color: #E8E8EA;
+  display: inline;
+}
+.container .table-row .device-data {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-.container .device-row .device-details {
+.container .table-row .device-data .device-details {
   font-size: 12px;
   color: #6E6D7A;
 }
-.container .device {
+.container .table-row .device-data .device {
   display: flex;
   gap: 4px;
   align-items: center;
   font-weight: 400;
+}
+.container .table-row .context-menu {
+  position: absolute;
+  background-color: white;
+  width: 120px;
+  height: 72px;
+  border-radius: 2px;
+  padding: 4px;
+  right: 35px;
+  margin-top: 13%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 11px;
+  border: 1px solid #48446940;
+  justify-content: center;
+}
+.container .table-row .context-menu .button {
+  background-color: white;
+  border: none;
+}
+.container .table-row .context-menu .button.delete {
+  color: red;
 }
 /*# sourceMappingURL=DevicesTable.css.map */

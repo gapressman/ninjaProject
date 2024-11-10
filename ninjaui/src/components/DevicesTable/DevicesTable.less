@@ -11,21 +11,71 @@
         border-color: #CBCFD3;
     }
 
-    .device-row {
+    .table-row {
         display: flex;
-        flex-direction: column;
-        gap: 4px;
+        justify-content: space-between;
+        align-items: center;
 
-        .device-details {
-            font-size: 12px;
-            color: #6E6D7A;
+        .show-more-button {
+            height: 32px;
+            width: 32px;
+            display: none;
+
+            &.active {
+                display: inline;
+            }
+        }
+
+        &:hover {
+            .show-more-button {
+                background-color: #E8E8EA;
+                display: inline;
+            }
+        }
+
+        .device-data {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .device-details {
+                font-size: 12px;
+                color: #6E6D7A;
+            }
+            
+            .device {
+                display: flex;
+                gap: 4px;
+                align-items: center;
+                font-weight: 400;
+            }
+        }
+
+        .context-menu {
+            position: absolute;
+            background-color: white;
+            width: 120px;
+            height: 72px;
+            border-radius: 2px;
+            padding: 4px;
+            right: 35px;
+            margin-top: 13%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 11px;
+            border: 1px solid #48446940;
+            justify-content: center;
+
+            .button {
+                background-color: white;
+                border: none;
+
+                &.delete {
+                    color: red;
+                }
+            }
         }
     }
 
-    .device {
-        display: flex;
-        gap: 4px;
-        align-items: center;
-        font-weight: 400;
-    }
 }

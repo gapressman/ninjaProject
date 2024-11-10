@@ -1,0 +1,45 @@
+.modal {
+    &.delete-modal {
+        height: 209px;
+    }
+    
+    .title-row {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+    
+        .title {
+            font-size: 24px;
+        }
+    }
+
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; 
+    }
+
+    .actions {
+        display: flex;
+        gap: 8px;
+        align-self: flex-end;
+
+        .button {
+            height: 38px;
+            padding: 12px;
+            border-radius: 4px;
+
+            &.cancel {
+                border: 1px solid #48446940;
+                background-color: white;
+            }
+
+            &.delete {
+                border: none;
+                background-color: #D53948;
+                color: white;
+            }
+        }
+    }
+}

@@ -2,6 +2,7 @@ import {
     useSuspenseQuery, UseSuspenseQueryResult,
 } from '@tanstack/react-query';
 import axios from 'axios';
+import { QUERY_KEYS } from './queryKeys';
 
 export type DeviceType = "WINDOWS" | "MAC" | "LINUX"
 export interface Device {
@@ -13,7 +14,7 @@ export interface Device {
 
 export const useGetDevices = (): UseSuspenseQueryResult<Device[]> => {
     return useSuspenseQuery<Device[]>({
-        queryKey: ['devices'],
+        queryKey: [QUERY_KEYS.devices],
         queryFn: async () => {
             const { data } = await axios({ url: 'http://localhost:3000/devices', method: 'get' });
 
