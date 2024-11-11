@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import logo from './icons/NinjaOneLogo.png';
 import plus from './icons/plus.png';
 import './App.css';

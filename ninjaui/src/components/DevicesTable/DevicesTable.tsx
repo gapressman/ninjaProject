@@ -1,4 +1,4 @@
-import React, { FC, Suspense, useRef, useState } from 'react';
+import React, { FC, Suspense, useMemo, useRef, useState } from 'react';
 import { Device, useGetDevices } from '../../core/queries/useGetDevices';
 import './DevicesTable.css';
 import { DeviceIcon } from '../DeviceIcon';
@@ -70,12 +70,12 @@ export const DevicesTable: FC<Props> = ({ setDeviceMeta }) => {
         setOpenRowId(id);
     };
 
-    const filteredDevices = devices
+    const filteredDevices = useMemo(() => devices
         .filter((device) => {
             return filterDeviceByText(device, searchValue) && filterDeviceByType(device, deviceType);
-        });
+        }), [devices, searchValue, deviceType]);
 
-    const sortedDevices = sortDevices(filteredDevices, sort);
+    const sortedDevices = useMemo(() => sortDevices(filteredDevices, sort), [filteredDevices, sort]);
 
     return (
         <Suspense fallback={<div>loading...</div>}>
